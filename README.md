@@ -1,476 +1,121 @@
-Autonomous On-Chain Detective Agent
-A Multi-Agent AI System for Real-Time Rugpull Prediction and Blockchain Fraud Detection
-1. Abstract
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
 
-The Autonomous On-Chain Detective Agent is a real-time, agentic AI security system designed to detect and predict rugpulls, liquidity-based exploits, and malicious on-chain behavior before damage occurs. The system continuously monitors blockchain activity, computes a quantitative rugpull probability score, and generates structured explanations of suspicious events.
-
-𝑅
-∈
-[
-0
-,
-100
-]
-R∈[0,100]
-
-This work integrates blockchain analytics, agent-based modeling, anomaly detection, and LLM interpretability into a single coherent framework optimized for decentralized security environments.
-
-2. Introduction
-
-Decentralized finance has introduced new attack surfaces, including liquidity removal attacks, honeypots, privilege exploits, and coordinated wallet manipulations. Existing solutions rely primarily on static analysis or post-exploit forensics.
-
-This project introduces a real-time, predictive, agentic security architecture intended to:
-
-Continuously observe on-chain behavior
-
-Detect abnormal liquidity or wallet flows
-
-Predict rugpull probability
-
-Generate human-readable diagnostic explanations
-
-Alert users before financial damage occurs
-
-3. Multi-Agent System Architecture
-𝐴
-=
-{
-𝐴
-listen
-,
-𝐴
-pattern
-,
-𝐴
-anomaly
-,
-𝐴
-risk
-,
-𝐴
-explain
-,
-𝐴
-alert
-}
-A={A
-listen
-	​
-
-,A
-pattern
-	​
-
-,A
-anomaly
-	​
-
-,A
-risk
-	​
-
-,A
-explain
-	​
-
-,A
-alert
-	​
-
-}
-3.1 Agent Descriptions
-A_{\text{listen}} — Blockchain Listener Agent
-
-Subscribes to WebSocket transaction streams
-
-Observes liquidity movements, swaps, transfers, and owner actions
-
-A_{\text{pattern}} — Pattern Recognition Agent
-
-Identifies classical rugpull indicators
-
-Detects liquidity withdrawal, owner dumping, mint spikes, and privilege misuse
-
-A_{\text{anomaly}} — Anomaly Detection Agent
-
-Computes statistical or ML-based anomaly scores
-
-Supports: Isolation Forest, Z-score, and GNN wallet clustering
-
-A_{\text{risk}} — Risk Scoring Agent
-
-Computes combined rugpull probability:
-
-𝑅
-=
-40
-𝑠
-liq
-+
-30
-𝑠
-owner
-+
-15
-𝐴
-+
-15
-𝑠
-priv
-R=40s
-liq
-	​
-
-+30s
-owner
-	​
-
-+15A+15s
-priv
-	​
-
-
-Normalized to:
-
-𝑅
-=
-min
-⁡
-(
-100
-,
-𝑅
-)
-R=min(100,R)
-A_{\text{explain}} — Explanation Agent
-
-Transforms structured signals into natural-language reasoning using LLMs.
-
-A_{\text{alert}} — Notification Agent
-
-Dispatches security notifications via Telegram or Discord.
-
-4. System Pipeline
-A_listen → A_pattern → A_anomaly → A_risk → A_explain → A_alert + Dashboard
-
-5. Methodology
-5.1 On-Chain Event Stream
-
-Let the event stream be:
-
-𝑇
-=
-{
-𝑡
-1
-,
-𝑡
-2
-,
-…
-,
-𝑡
-𝑛
-}
-T={t
-1
-	​
-
-,t
-2
-	​
-
-,…,t
-n
-	​
-
+% Define a custom command for the title block
+\newcommand{\projecttitle}[2]{
+    \begin{center}
+    \vspace*{1cm}
+    {\Huge \textbf{#1}} \\
+    \vspace{0.5cm}
+    {\large #2}
+    \vspace{1cm}
+    \hrule
+    \end{center}
 }
 
-The listener agent generates an ordered buffer of blockchain actions for downstream analysis.
-
-5.2 Rugpull Signal Vector
-
-The system maintains a binary event vector:
-
-𝑆
-=
-[
-𝑠
-liq
-
-
-𝑠
-owner
-
-
-𝑠
-mint
-
-
-𝑠
-honeypot
-
-
-𝑠
-priv
-]
-∈
-{
-0
-,
-1
-}
-5
-S=
-	​
-
-s
-liq
-	​
-
-s
-owner
-	​
-
-s
-mint
-	​
-
-s
-honeypot
-	​
-
-s
-priv
-	​
-
-	​
-
-	​
-
-∈{0,1}
-5
-
-Each signal corresponds to a high-risk behavior class.
-
-5.3 Anomaly Modeling
-
-Given a feature matrix 
-𝑋
-X, anomaly score is defined as:
-
-𝐴
-=
-𝑓
-(
-𝑋
-)
-∈
-[
-0
-,
-1
-]
-A=f(X)∈[0,1]
-
-Where 
-𝑓
-f may represent:
-
-Isolation Forest
-
-Z-score deviation
-
-Basic GNN embeddings
-
-5.4 Risk Assessment
-
-The final rugpull probability score is computed via weighted aggregation of heuristic + model signals.
-
-𝑅
-=
-𝑤
-1
-𝑠
-liq
-+
-𝑤
-2
-𝑠
-owner
-+
-𝑤
-3
-𝐴
-+
-𝑤
-4
-𝑠
-priv
-R=w
-1
-	​
-
-s
-liq
-	​
-
-+w
-2
-	​
-
-s
-owner
-	​
-
-+w
-3
-	​
-
-A+w
-4
-	​
-
-s
-priv
-	​
-
-
-Where:
-
-𝑤
-1
-=
-40
-,
-𝑤
-2
-=
-30
-,
-𝑤
-3
-=
-15
-,
-𝑤
-4
-=
-15
-w
-1
-	​
-
-=40,w
-2
-	​
-
-=30,w
-3
-	​
-
-=15,w
-4
-	​
-
-=15
-5.5 Explanation Generation
-
-Given input state:
-
-𝐸
-=
-{
-𝑆
-,
-𝐴
-,
-Δ
-𝐿
-,
-Δ
-𝑊
-,
-Δ
-𝑆
-}
-E={S,A,ΔL,ΔW,ΔS}
-
-The explanation agent produces:
-
-Explanation
-=
-LLM
-(
-𝐸
-)
-Explanation=LLM(E)
-
-The resulting narrative is intended to be concise, interpretable, and suitable for end-user consumption.
-
-6. Implementation
-6.1 Technologies Used
-Component	Technology
-Blockchain Interface	Web3.py (Alchemy WebSocket)
-Backend	Python, FastAPI
-AI Reasoning	OpenAI GPT / Claude / Llama
-ML Models	scikit-learn / PyTorch
-Visualization	Streamlit
-Alerts	Telegram Bot API / Discord Webhooks
-Storage	SQLite / Redis
-7. Experimental Demonstration
-
-A controlled testnet environment is used to demonstrate the effectiveness of the system:
-
-Deploy ERC-20 token
-
-Provide liquidity
-
-Simulate rugpull behavior
-
-Observe system detection in real-time
-
-During testing, the system produced alerts of the form:
-
-Liquidity decreased by 92% within 2 blocks. Owner transferred a large supply to an unverified wallet. Rugpull probability estimated at 97%.
-
-8. Results
-
-The system demonstrates:
-
-High sensitivity to rapid liquidity withdrawals
-
-Accurate detection of owner-privilege misuse
-
-Effective anomaly identification across transaction flows
-
-Strong interpretability via LLM-generated explanations
-
-9. Conclusion
-
-This project demonstrates the feasibility and value of a multi-agent AI framework for real-time rugpull prediction and fraud detection. By integrating blockchain streaming data, heuristic pattern detection, anomaly modeling, and language-model explanation, the system provides a novel defense layer for decentralized ecosystems.
-
-10. Team
-
-Team Name
-2025 Scoop AI Hackathon — Silicon Valley Bowl
-Santa Clara, California
-
-11. Keywords
-
-Blockchain Security
-Rugpull Detection
-Anomaly Modeling
-Agentic AI
-Smart Contract Forensics
-DeFi Risk Analysis
-
-If you want:
-
-A LaTeX PDF version
-
-A Beamer pitch deck
-
-A math-heavy appendix section
-
-Or a supplementary algorithm section
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+
+\projecttitle{Autonomous On-Chain ``Detective Agent''}
+{🏆 Rugpull + Fraud Hunter: AI-Powered Blockchain Security Monitoring}
+
+\section*{1. 🌟 Project Overview}
+
+The **Autonomous On-Chain Detective Agent** is an S-tier AI system designed to actively monitor live blockchain transactions, predict potential rugpulls and scams, and provide actionable security intelligence. It moves beyond simple heuristics by leveraging advanced AI techniques to detect complex, multi-step fraud patterns in real-time, offering a critical defense layer for DeFi investors.
+
+\section*{2. 🔥 Features and Capabilities}
+
+\begin{itemize}
+    \item \textbf{Live Transaction Monitoring:} Hooks into blockchain nodes (via WebSockets) to analyze transactions as they are mined.
+    \item \textbf{Anomaly Detection:} Analyzes abnormal \textbf{wallet flows} and detects suspicious \textbf{liquidity movements} (e.g., massive withdrawal/deposit pairs).
+    \item \textbf{Risk Prediction:} Predicts \textbf{rugpull probability} in real-time.
+    \item \textbf{Contract Flagging:} Identifies and flags risky smart contracts (e.g., contracts with hidden backdoors or unusually high owner permissions).
+    \item \textbf{Pattern Learning:} Learns and evolves by analyzing historic exploits (Flash Loans, exit scams, honeypots, etc.).
+\end{itemize}
+
+\section*{3. 💡 Output and Deliverables}
+
+The agent provides clear, actionable intelligence to the user:
+
+\begin{itemize}
+    \item \textbf{Risk Score (0--100):} A quantifiable measure of the immediate threat.
+    \item \textbf{Explanation:} A concise, human-readable summary of the detected threat (e.g., ``Owner pulled 70\% of liquidity in 2 minutes'').
+    \item \textbf{Timeline of Events:} A chronological list of suspicious on-chain activity.
+    \item \textbf{Recommended Action:} Clear guidance (\texttt{sell}, \texttt{hold}, \texttt{avoid}, \texttt{blacklist}).
+    \item \textbf{Alert Bot:} Real-time notifications via \textbf{Discord/Telegram}.
+\end{itemize}
+
+\section*{4. 🛠️ Technical Stack}
+
+\subsection*{4.1. Core Technologies}
+\begin{itemize}
+    \item \textbf{Blockchain Connection:} \texttt{web3.py} (Python Library) for interaction.
+    \item \textbf{Data Source:} Etherscan / Alchemy WebSocket API for live data feeds.
+    \item \textbf{Frontend:} \texttt{Streamlit} for an interactive dashboard.
+    \item \textbf{Alerting:} Python Telegram Bot API.
+\end{itemize}
+
+\subsection*{4.2. Multi-Agent System Architecture}
+The system is built on a multi-agent design for robust analysis:
+\begin{itemize}
+    \item \textbf{Reasoner Agent:} Processes raw data and forms logical deductions.
+    \item \textbf{Pattern Matcher Agent:} Identifies known exploit signatures.
+    \item \textbf{Exploit Library:} A historical database of scam patterns and contract vulnerabilities.
+    \item \textbf{Risk Agent:} Computes the final Risk Score based on inputs from all other agents.
+\end{itemize}
+
+\subsection*{4.3. AI/ML Component}
+\begin{itemize}
+    \item A light \textbf{Graph Neural Network (GNN)} or a dedicated \textbf{Anomaly Detector} model is used to analyze complex, non-linear relationships in wallet-to-wallet transactions and liquidity pool dynamics.
+\end{itemize}
+
+\section*{5. 🚀 Getting Started}
+
+\subsection*{5.1. Prerequisites}
+\begin{itemize}
+    \item Python 3.9+
+    \item Alchemy/Infura WebSocket Endpoint
+    \item Telegram Bot Token (for alerting)
+\end{itemize}
+
+\subsection*{5.2. Installation}
+\begin{verbatim}
+git clone https://github.com/YourUsername/DetectiveAgent.git
+cd DetectiveAgent
+pip install -r requirements.txt
+\end{verbatim}
+
+\subsection*{5.3. Configuration}
+Create a \texttt{.env} file in the root directory and populate it:
+\begin{verbatim}
+WEB3_WS_URL=wss://eth-mainnet.alchemyapi.io/v2/YOUR_API_KEY
+TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
+TELEGRAM_CHAT_ID=YOUR_CHAT_ID
+\end{verbatim}
+
+\subsection*{5.4. Running the Agent}
+\begin{verbatim}
+# Start the core AI agent for monitoring
+python agent_main.py
+
+# Start the Streamlit dashboard
+streamlit run dashboard.py
+\end{verbatim}
+
+\section*{6. 🌟 Bonus Shockers (Future/Advanced Integrations)}
+
+\begin{itemize}
+    \item \textbf{Autonomous Mitigation:} Connect the Risk Agent to a custom smart contract that is authorized to \textbf{auto-lock/revoke spending permissions} on user funds if the risk score for a monitored token exceeds a defined threshold ($\text{Risk} > 90$).
+    \item \textbf{SpoonOS Integration:} Integrate with the SpoonOS agent environment for decentralized, autonomous, and continuous monitoring, allowing the agent to function independently on a distributed infrastructure.
+\end{itemize}
+
+\end{document}
