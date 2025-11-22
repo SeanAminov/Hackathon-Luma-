@@ -1,8 +1,14 @@
 import asyncio
+import sys
+
+if sys.platform.startswith("win"):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 from spoon_ai.agents.toolcall import ToolCallAgent
 from spoon_ai.chat import ChatBot
 from spoon_ai.tools import ToolManager
 from spoon_ai.tools.base import BaseTool
+
 
 # Define a custom tool
 class GreetingTool(BaseTool):
